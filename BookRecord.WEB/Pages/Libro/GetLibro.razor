@@ -1,0 +1,63 @@
+﻿@page "/Libro/GetLibro"
+@using System.Net.Http.Json
+@using System.Text.Json
+@using BookRecord.BLL.Services;
+@using BookRecord.WEB
+@using BookRecord.BLL.DTOs
+@using System.Text
+@using MudBlazor
+@using Newtonsoft.Json;
+@using MudBlazor.Extensions
+@using System.Text
+@inject NavigationManager NavManager
+@inject GetLibrosServices getLibrosServices
+
+
+
+<MudText Typo="Typo.h6">Consulta de Libros</MudText>
+
+<MudButton OnClick="GetBook" Variant="Variant.Filled" Color="Color.Primary">
+    <MudText>Obtener Libros</MudText>
+</MudButton>
+
+<MudButton OnClick="InsertBook" Variant="Variant.Filled" Color="Color.Primary">
+    <MudText>Crear Libros</MudText>
+</MudButton>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Titulo del Libro</th>
+            <th>Año</th>
+            <th>Genero</th>
+            <th>Número de Paginas</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in libro)
+        {
+            <tr>
+                <td>@data.Titulo</td>
+                <td>@data.Anio</td>
+                <td>@data.Genero</td>
+                <td>@data.NumPaginas</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    List<LibroDTO> libro = new();
+
+    private async Task GetBook()
+    {
+        libro = await getLibrosServices.GetLibro();
+    }
+
+    private async Task InsertBook()
+    {
+        NavManager.NavigateTo("Libro/InsertLibro");
+    }
+
+
+}
