@@ -1,7 +1,55 @@
 ﻿@page "/Autor/InsertAutor"
+@using System.Net.Http.Json
+@using System.Text.Json
+@using BookRecord.WEB.DTOs;
+@using BookRecord.WEB.Services;
+@using BookRecord.WEB.Models;
+@using System.Text
+@using MudBlazor
+@using Newtonsoft.Json;
+@using MudBlazor.Extensions
+@inject NavigationManager NavManager
+@inject AutoresService autorServices
 
-<h3>InsertAutor</h3>
+<h3>Agreagar un Autor</h3>
+
+<EditForm Model="@autors" OnValidSubmit="@Submit">
+    <div>
+        <label for="AutorId">Codigo del autor:</label>
+        <InputNumber id="AutorId" @bind-Value="autors.AutorId" />
+
+        <label for="NombreCompleto">Nombre Completo:</label>
+        <InputText id="NombreCompleto" @bind-Value="autors.NombreCompleto" />
+
+        <label for="FechaNacimiento">Fecha de Nacimiento:</label>
+        <InputDate id="FechaNacimiento" @bind-Value="autors.FechaNacimiento" />
+
+        <label for="CiudadProcedencia">Ciudad de Procedencia:</label>
+        <InputText id="CiudadProcedencia" @bind-Value="autors.CiudadProcedencia" />
+
+        <label for="CorreoElectronico">Correo Electronico:</label>
+        <InputText id="CorreoElectronico" @bind-Value="autors.CorreoElectronico" />
+       @*  <label for="AutorId">Id del autor</label>
+        <InputNumber id="AutorId" @bind-Value="autors.AutorId" /> *@
+    </div>
+
+    <button type="submit">Guardar Libro</button>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="GoToIndex">Volver al índice</MudButton>
+
+</EditForm>
+
 
 @code {
+    AutorDTO autors = new();
 
+    private void GoToIndex()
+    {
+        NavManager.NavigateTo("Autor/GetAutor");
+    }
+
+    private async Task Submit()
+    {
+        autors = await autorServices.InsertAuthor(autors);
+        NavManager.NavigateTo("Autor/GetAutor");
+    }
 }

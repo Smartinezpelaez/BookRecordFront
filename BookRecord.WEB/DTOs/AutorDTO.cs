@@ -15,5 +15,5 @@ public class AutorDTO
 
     public string CorreoElectronico { get; set; } = null!;
 
-    public virtual ICollection<Libro> Libros { get; set; } = new List<Libro>();
+    //public virtual ICollection<Libro> Libros { get; set; } = new List<Libro>();
 }

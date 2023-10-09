@@ -35,14 +35,17 @@
     </div>
 
     <button type="submit">Guardar Libro</button>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="GoToIndex">Volver al índice</MudButton>
 </EditForm>
 
 
-@code {
-    // List<LibroDTO> libros = new();
+@code {  
     LibroDTO libro = new();
-    List<AutorDTO> autors = new();
- 
+  
+    private void GoToIndex()
+    {
+        NavManager.NavigateTo("Libro/GetLibro");
+    }
 
     private async Task Submit()
     {

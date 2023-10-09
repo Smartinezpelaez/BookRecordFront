@@ -1,6 +1,76 @@
 ﻿@page "/Autor/GetAutor"
-<h3>GetActor</h3>
+@using System.Net.Http.Json
+@using System.Text.Json
+@using BookRecord.WEB.DTOs;
+@using BookRecord.WEB.Services;
+@using BookRecord.WEB.Models;
+@using System.Text
+@using MudBlazor
+@using Newtonsoft.Json;
+@using MudBlazor.Extensions
+@inject NavigationManager NavManager
+@inject AutoresService autorServices
 
+<MudText Typo="Typo.h6">Consulta de Autores</MudText>
+
+<MudButton OnClick="GetAuthor" Variant="Variant.Filled" Color="Color.Primary">
+    <MudText>Obtener Autores</MudText>
+</MudButton>
+
+<MudButton OnClick="InsertAuthor" Variant="Variant.Filled" Color="Color.Primary">
+    <MudText>Crear Autor</MudText>
+</MudButton>
+
+<MudButton OnClick="UpdateAuthor" Variant="Variant.Filled" Color="Color.Primary">
+    <MudText>Actualizar Autor</MudText>
+</MudButton>
+
+<MudButton OnClick="DeleteAuthor" Variant="Variant.Filled" Color="Color.Primary">
+    <MudText>Eliminar Autor</MudText>
+</MudButton>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha de nacimiento</th>
+            <th>Ciudad de procedencia</th>
+            <th>Mail</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in autors)
+        {
+            <tr>
+                <td>@data.NombreCompleto</td>
+                <td>@data.FechaNacimiento</td>
+                <td>@data.CiudadProcedencia</td>
+                <td>@data.CorreoElectronico</td>
+            </tr>
+        }
+    </tbody>
+</table>
 @code {
+    List<AutorDTO> autors = new();
 
+    private async Task GetAuthor()
+    {
+        autors = await autorServices.GetAuthors();   
+    }
+
+    private async Task InsertAuthor()
+    {
+        NavManager.NavigateTo("Autor/InsertAutor");
+    }
+
+    private async Task UpdateAuthor()
+    {
+        NavManager.NavigateTo("Autor/UpdateAutor");
+    }
+
+    private async Task DeleteAuthor()
+    {
+        NavManager.NavigateTo("Autor/DeleteAutor");
+    }
 }

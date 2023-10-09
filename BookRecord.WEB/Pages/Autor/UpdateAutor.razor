@@ -1,7 +1,52 @@
 ﻿@page "/Autor/UpdateAutor"
+@using System.Net.Http.Json
+@using System.Text.Json
+@using BookRecord.WEB.DTOs;
+@using BookRecord.WEB.Services;
+@using BookRecord.WEB.Models;
+@using System.Text
+@using MudBlazor
+@using Newtonsoft.Json;
+@using MudBlazor.Extensions
+@inject NavigationManager NavManager
+@inject AutoresService autorServices
 
-<h3>UpdateActor</h3>
+<h3>Actualizar Actor</h3>
+
+@if (autors != null)
+{
+    <EditForm Model="autors" OnValidSubmit="@Submit">
+        <DataAnnotationsValidator />
+        <MudTextField @bind-Value="autors.AutorId" Label="Id del Autor" />
+        <MudTextField @bind-Value="autors.NombreCompleto" Label="Nombre Completo" />
+        <MudTextField @bind-Value="autors.FechaNacimiento" Label="Fecha de Nacimiento" />
+        <MudTextField @bind-Value="autors.CiudadProcedencia" Label="Ciudad de Procedencia" />
+        <MudTextField @bind-Value="autors.CorreoElectronico" Label="Correo Electronico" />
+
+
+        <button type="submit">Actualizar Autor</button>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="GoToIndex">Volver al índice</MudButton>
+    </EditForm>
+}
+else
+{
+    <p>Cargando datos...</p>
+}
+
 
 @code {
+
+    AutorDTO autors = new();
+
+    private void GoToIndex()
+    {
+        NavManager.NavigateTo("Autor/GetAutor");
+    }
+
+    private async Task Submit()
+    {
+        autors = await autorServices.UpdateAuthor(autors.AutorId, autors);
+        NavManager.NavigateTo("Autor/GetAutor");
+    }
 
 }

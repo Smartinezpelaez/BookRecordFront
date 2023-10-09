@@ -1,7 +1,71 @@
 ﻿@page "/Autor/DeleteAutor"
+@using System.Net.Http.Json
+@using System.Text.Json
+@using BookRecord.WEB.DTOs;
+@using BookRecord.WEB.Services;
+@using BookRecord.WEB.Models;
+@using System.Text
+@using MudBlazor
+@using Newtonsoft.Json;
+@using MudBlazor.Extensions
+@inject NavigationManager NavManager
+@inject AutoresService autorServices
 
-<h3>DeleteAutor</h3>
+<h3>Eliminar Autor</h3>
+
+
+@if (autores != null)
+{
+    <form @onsubmit="Submit">
+        <p>Selecciona el autor que deseas eliminar:</p>
+
+        <label for="selectedAuthorId">Autores:</label>
+        <select id="selectedAuthorId" @bind="selectedAuthorId">
+            @foreach (var data in autores)
+            {
+                <option value="@data.AutorId">@data.NombreCompleto</option>
+            }
+        </select>
+
+        <button type="submit">Eliminar Autor</button>
+        <button type="button" @onclick="GoToIndex">Volver al índice</button>
+    </form>
+
+}
 
 @code {
+    private List<AutorDTO> autores;
+    private AutorDTO autor;
+    private int selectedAuthorId;
+
+    private void GoToIndex()
+    {
+        NavManager.NavigateTo("Autor/GetAutor");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Obtener la lista completa de autores.
+        autores = await autorServices.GetAuthors();
+    }
+
+    private async Task Submit()
+    {
+        try
+        {
+            // Obtener el autor seleccionado para eliminar.
+            var autorToDelete = selectedAuthorId;
+
+            if (autorToDelete != 0) // Assuming AutorId is of type int
+            {
+                var deleted = await autorServices.DeleteAuthor(autorToDelete);
+                // Handle the result of the deletion, show messages, etc.
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle errors, show messages, etc.
+        }
+    }
 
 }
