@@ -1,6 +1,7 @@
-﻿using BookRecord.DAL.Models;
+﻿
+using BookRecord.WEB.Models;
 
-namespace BookRecord.BLL.DTOs;
+namespace BookRecord.WEB.DTOs;
 
 public class AutorDTO
 {

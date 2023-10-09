@@ -2,5 +2,5 @@
 
 public class LibroResponseDTO
 {
-    public List<LibroDTO> LibroDTOs { get; set; } = new List<LibroDTO>();
+    public List<LibroDTO>? LibroDTOs { get; set; } 
 }

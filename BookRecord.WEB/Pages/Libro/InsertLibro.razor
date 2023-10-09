@@ -1,6 +1,54 @@
 ﻿@page "/Libro/InsertLibro"
-<h3>InsertLibro</h3>
+@using System.Net.Http.Json
+@using System.Text.Json
+@using BookRecord.WEB.DTOs;
+@using BookRecord.WEB.Services;
+@using BookRecord.WEB.Models;
+@using System.Text
+@using MudBlazor
+@using Newtonsoft.Json;
+@using MudBlazor.Extensions
+@inject NavigationManager NavManager
+@inject LibrosServices insertlibrosServices
+
+<h3>Agregar un Libro</h3>
+
+<EditForm Model="@libro" OnValidSubmit="@Submit">
+    <div>
+        <label for="LibroId">Codigo Libro:</label>
+        <InputNumber id="LibroId" @bind-Value="libro.LibroId" />
+
+        <label for="Titulo">Titulo:</label>
+        <InputText id="Titulo" @bind-Value="libro.Titulo" />
+
+        <label for="Anio">Año:</label>
+        <InputNumber id="Anio" @bind-Value="libro.Anio" />
+
+        <label for="Genero">Genero:</label>
+        <InputText id="Genero" @bind-Value="libro.Genero" />
+
+        <label for="NumPaginas">Número de paginas:</label>
+        <InputNumber id="NumPaginas" @bind-Value="libro.NumPaginas" />
+
+          <label for="AutorId">Id del autor</label>
+        <InputNumber id="AutorId" @bind-Value="libro.AutorId" />
+    </div>
+
+    <button type="submit">Guardar Libro</button>
+</EditForm>
+
 
 @code {
+    // List<LibroDTO> libros = new();
+    LibroDTO libro = new();
+    List<AutorDTO> autors = new();
+ 
+
+    private async Task Submit()
+    {
+        libro = await insertlibrosServices.InsertBook(libro);
+        NavManager.NavigateTo("Libro/GetLibro");
+
+    }
 
 }

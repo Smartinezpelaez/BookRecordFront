@@ -15,8 +15,9 @@ public class GetLibrosServices
     public async Task<List<LibroDTO>> GetLibro()
     {
         var httpClient = new HttpClient();
-        var response = await httpClient.GetAsync("http://localhost/BookRecordAPI/api/Libro/GetAll");
+        var response = await httpClient.GetAsync("http://localhost/BookRecordAPI/api/Autor/GetAll");
         var json = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(json);
         var libroResponse = JsonConvert.DeserializeObject<LibroResponseDTO>(json);
         return libroResponse.LibroDTOs;
 

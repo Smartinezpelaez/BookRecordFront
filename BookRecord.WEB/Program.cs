@@ -1,5 +1,6 @@
-using BookRecord.BLL.Services;
+
 using BookRecord.WEB;
+using BookRecord.WEB.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
@@ -10,9 +11,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 //Services
 
-//builder.Services.AddSingleton<InsertPrestamoService>();
-builder.Services.AddScoped<InsertLibrosService>();
-builder.Services.AddScoped<GetLibrosServices>();
+builder.Services.AddScoped<AutoresService>();
+builder.Services.AddScoped<LibrosServices>();
 
 // Configurar MudBlazor
 builder.Services.AddMudBlazorDialog();
@@ -21,5 +21,7 @@ builder.Services.AddMudBlazorResizeListener();
 builder.Services.AddMudServices();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+
 
 await builder.Build().RunAsync();

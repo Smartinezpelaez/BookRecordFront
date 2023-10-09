@@ -1,8 +1,6 @@
-﻿using BookRecord.DAL.Models;
+﻿namespace BookRecord.WEB.Models;
 
-namespace BookRecord.BLL.DTOs;
-
-public class AutorDTO
+public partial class Autor
 {
     public int AutorId { get; set; }
 

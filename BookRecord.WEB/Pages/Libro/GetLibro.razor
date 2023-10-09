@@ -1,16 +1,15 @@
 ﻿@page "/Libro/GetLibro"
 @using System.Net.Http.Json
 @using System.Text.Json
-@using BookRecord.BLL.Services;
-@using BookRecord.WEB
-@using BookRecord.BLL.DTOs
+@using BookRecord.WEB.DTOs;
+@using BookRecord.WEB.Services;
+@using BookRecord.WEB.Models;
 @using System.Text
 @using MudBlazor
 @using Newtonsoft.Json;
 @using MudBlazor.Extensions
-@using System.Text
 @inject NavigationManager NavManager
-@inject GetLibrosServices getLibrosServices
+@inject LibrosServices librosServices
 
 
 
@@ -51,7 +50,7 @@
 
     private async Task GetBook()
     {
-        libro = await getLibrosServices.GetLibro();
+        libro = await librosServices.GetBook();
     }
 
     private async Task InsertBook()

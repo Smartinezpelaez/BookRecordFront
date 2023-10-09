@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookRecord.WEB", "BookRecord.WEB\BookRecord.WEB.csproj", "{F61900FE-7B02-46E7-B6E9-3DBDF694F7B4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookRecord.DAL", "BookRecord.DAL\BookRecord.DAL.csproj", "{F5683B78-14F8-4C7E-A57E-6B421AC9B410}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookRecord.BLL", "BookRecord.BLL\BookRecord.BLL.csproj", "{DF77AA2D-58BB-44AD-86F1-39AE92DE8406}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookRecord.WEB", "BookRecord.WEB\BookRecord.WEB.csproj", "{F61900FE-7B02-46E7-B6E9-3DBDF694F7B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +15,6 @@ Global
 		{F61900FE-7B02-46E7-B6E9-3DBDF694F7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F61900FE-7B02-46E7-B6E9-3DBDF694F7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F61900FE-7B02-46E7-B6E9-3DBDF694F7B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5683B78-14F8-4C7E-A57E-6B421AC9B410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5683B78-14F8-4C7E-A57E-6B421AC9B410}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5683B78-14F8-4C7E-A57E-6B421AC9B410}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5683B78-14F8-4C7E-A57E-6B421AC9B410}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF77AA2D-58BB-44AD-86F1-39AE92DE8406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF77AA2D-58BB-44AD-86F1-39AE92DE8406}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF77AA2D-58BB-44AD-86F1-39AE92DE8406}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF77AA2D-58BB-44AD-86F1-39AE92DE8406}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
