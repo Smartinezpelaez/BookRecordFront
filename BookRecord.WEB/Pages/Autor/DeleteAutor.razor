@@ -61,6 +61,7 @@
                 var deleted = await autorServices.DeleteAuthor(autorToDelete);
                 // Handle the result of the deletion, show messages, etc.
             }
+            NavManager.NavigateTo("Autor/GetAutor");
         }
         catch (Exception ex)
         {

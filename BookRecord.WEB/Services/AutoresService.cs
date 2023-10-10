@@ -1,4 +1,5 @@
 ﻿using BookRecord.WEB.DTOs;
+using BookRecord.WEB.Endpoints;
 using BookRecord.WEB.Models;
 using Newtonsoft.Json;
 using System.Data.Common;
@@ -25,7 +26,8 @@ public class AutoresService
     public async Task<List<AutorDTO>> GetAuthors()
     {
         var httpClient = new HttpClient();
-        var response = await httpClient.GetAsync("https://localhost:7010/api/Autor/GetAll");
+        //var response = await httpClient.GetAsync("http://localhost/BookRecordAPI/api/Autor/GetAll");
+        var response = await httpClient.GetAsync($"{ApiEndpoints.Autor.BaseUrl}{ApiEndpoints.Autor.GetAll}");
         var json = await response.Content.ReadAsStringAsync();
         Console.WriteLine(json);
         var autorResponse = JsonConvert.DeserializeObject<AutorResponseDTO>(json);
@@ -42,7 +44,8 @@ public class AutoresService
     {
         var autorJson = JsonConvert.SerializeObject(autor);
         var content = new StringContent(autorJson, System.Text.Encoding.UTF8, "application/json");
-        var response = await httpClient.PostAsync("https://localhost:7010/api/Autor/InsertAsync", content);
+        //var response = await httpClient.PostAsync("http://localhost/BookRecordAPI/api/Autor/InsertAsync", content);
+        var response = await httpClient.PostAsync($"{ApiEndpoints.Autor.BaseUrl}{ApiEndpoints.Autor.InsertAsync}", content);
 
         if (response.IsSuccessStatusCode)
         {
@@ -69,7 +72,8 @@ public class AutoresService
     {
         var autorJson = JsonConvert.SerializeObject(autor);
         var content = new StringContent(autorJson, System.Text.Encoding.UTF8, "application/json");
-        var response = await httpClient.PutAsync($"https://localhost:7010/api/Autor/Update/{authorId}", content);
+        //var response = await httpClient.PutAsync($"http://localhost/BookRecordAPI/api/Autor/Update/{authorId}", content);
+        var response = await httpClient.PutAsync($"{ApiEndpoints.Autor.BaseUrl}{ApiEndpoints.Autor.Update}/{authorId}", content);
 
         return await HandleResponse<AutorDTO>(response);
     }
@@ -82,7 +86,8 @@ public class AutoresService
     /// <exception cref="Exception"></exception>
     public async Task<bool> DeleteAuthor(int authorId)
     {
-        var response = await httpClient.DeleteAsync($"https://localhost:7010/api/Autor/DeleteAsync/{authorId}");
+        //var response = await httpClient.DeleteAsync($"http://localhost/BookRecordAPI/api/Autor/DeleteAsync/{authorId}");
+        var response = await httpClient.DeleteAsync($"{ApiEndpoints.Autor.BaseUrl}{ApiEndpoints.Autor.DeleteAsync}/{authorId}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -96,7 +101,9 @@ public class AutoresService
 
     public async Task<AutorDTO> GetAuthorById(int authorId)
     {
-        var response = await httpClient.GetAsync($"https://localhost:7010/api/Autor/GetById/{authorId}");
+        //var response = await httpClient.GetAsync($"http://localhost/BookRecordAPI/api/Autor/GetById/{authorId}");
+        var response = await httpClient.GetAsync($"{ApiEndpoints.Autor.BaseUrl}{ApiEndpoints.Autor.GetById}/{authorId}");
+
 
         return await HandleResponse<AutorDTO>(response);
     }

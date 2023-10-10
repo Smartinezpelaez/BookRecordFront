@@ -1,4 +1,5 @@
 ﻿using BookRecord.WEB.DTOs;
+using BookRecord.WEB.Endpoints;
 using BookRecord.WEB.Models;
 using Newtonsoft.Json;
 
@@ -15,8 +16,8 @@ public class LibrosServices
 
     public async Task<List<LibroDTO>> GetBook()
     {
-        var httpClient = new HttpClient();
-        var response = await httpClient.GetAsync("https://localhost:7010/api/Libro/GetAll");
+        var httpClient = new HttpClient();       
+        var response = await httpClient.GetAsync($"{ApiEndpoints.Libro.BaseUrl}{ApiEndpoints.Libro.GetAll}");
         var json = await response.Content.ReadAsStringAsync();
         Console.WriteLine(json);
         var libroResponse = JsonConvert.DeserializeObject<LibroResponseDTO>(json);
@@ -26,8 +27,8 @@ public class LibrosServices
     public async Task<LibroDTO> InsertBook(LibroDTO libro)
     {
         var libroJson = JsonConvert.SerializeObject(libro);
-        var content = new StringContent(libroJson, System.Text.Encoding.UTF8, "application/json");
-        var response = await httpClient.PostAsync("https://localhost:7010/api/Libro/InsertAsync", content);
+        var content = new StringContent(libroJson, System.Text.Encoding.UTF8, "application/json");        
+        var response = await httpClient.PostAsync($"{ApiEndpoints.Libro.BaseUrl}{ApiEndpoints.Libro.InsertAsync}", content);
 
         if (response.IsSuccessStatusCode)
         {
