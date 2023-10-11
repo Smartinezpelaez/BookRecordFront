@@ -1,27 +1,30 @@
 ﻿@page "/Libro/GetLibro"
 @using System.Net.Http.Json
 @using System.Text.Json
-@using BookRecord.WEB.DTOs;
-@using BookRecord.WEB.Services;
-@using BookRecord.WEB.Models;
+@using BookRecord.WEB.DTOs
+@using BookRecord.WEB.Services
+@using BookRecord.WEB.Models
 @using System.Text
 @using MudBlazor
-@using Newtonsoft.Json;
+@using Newtonsoft.Json
 @using MudBlazor.Extensions
 @inject NavigationManager NavManager
 @inject LibrosServices librosServices
-
-
+@inject ISnackbar Snackbar
 
 <MudText Typo="Typo.h6">Consulta de Libros</MudText>
 
-<MudButton OnClick="GetBook" Variant="Variant.Filled" Color="Color.Primary">
+@* <MudButton OnClick="GetBook" Variant="Variant.Filled" Color="Color.Primary">
     <MudText>Obtener Libros</MudText>
-</MudButton>
+</MudButton> *@
 
 <MudButton OnClick="InsertBook" Variant="Variant.Filled" Color="Color.Primary">
     <MudText>Crear Libros</MudText>
 </MudButton>
+
+<div style="margin-top: 16px;" @style="GetAlertStyle()">
+    <p style="color: red; font-weight: bold;">Solo puedes crear 6 libros.</p>
+</div>
 
 <table class="table">
     <thead>
@@ -45,18 +48,44 @@
     </tbody>
 </table>
 
+
 @code {
     List<LibroDTO> libro = new();
+    int librosCreados = 0;
+    bool showCustomAlert = false;
 
     private async Task GetBook()
     {
         libro = await librosServices.GetBook();
     }
 
-    private async Task InsertBook()
-    {
-        NavManager.NavigateTo("Libro/InsertLibro");
+    protected override async Task OnInitializedAsync()
+    {       
+        libro = await librosServices.GetBook();
     }
 
+    private async Task InsertBook()
+    {
+        if (libro.Count() < 6)
+        {
+            NavManager.NavigateTo("Libro/InsertLibro");
+            librosCreados++;
+        }
+        else
+        {
+            // Muestra la alerta personalizada.
+            ShowCustomAlert();
+        }
+    }
 
+    private void ShowCustomAlert()
+    {
+        showCustomAlert = true;
+        StateHasChanged(); // Actualiza el estado para que Blazor vuelva a renderizar la página
+    }
+
+    private string GetAlertStyle()
+    {
+        return showCustomAlert ? "display: block; color: red; font-weight: bold;" : "display: none;";
+    }
 }

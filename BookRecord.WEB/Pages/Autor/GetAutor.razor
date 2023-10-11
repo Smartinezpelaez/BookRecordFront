@@ -13,10 +13,10 @@
 
 <MudText Typo="Typo.h6">Consulta de Autores</MudText>
 
-<MudButton OnClick="GetAuthor" Variant="Variant.Filled" Color="Color.Primary">
+@* <MudButton OnClick="GetAuthor" Variant="Variant.Filled" Color="Color.Primary">
     <MudText>Obtener Autores</MudText>
 </MudButton>
-
+ *@
 <MudButton OnClick="InsertAuthor" Variant="Variant.Filled" Color="Color.Primary">
     <MudText>Crear Autor</MudText>
 </MudButton>
@@ -57,6 +57,12 @@
     private async Task GetAuthor()
     {
         autors = await autorServices.GetAuthors();   
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Obtener la lista completa de autores.
+        autors = await autorServices.GetAuthors();
     }
 
     private async Task InsertAuthor()
