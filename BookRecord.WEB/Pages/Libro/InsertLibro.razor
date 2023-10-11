@@ -9,37 +9,47 @@
 @using Newtonsoft.Json;
 @using MudBlazor.Extensions
 @inject NavigationManager NavManager
-@inject LibrosServices insertlibrosServices
+@inject LibrosServices librosServices
 
 <h3>Agregar un Libro</h3>
 
-<EditForm Model="@libro" OnValidSubmit="@Submit">
-    <div>
-        <label for="LibroId">Codigo Libro:</label>
-        <InputNumber id="LibroId" @bind-Value="libro.LibroId" />
+@if (Libros != null)
+{
+    <form @onsubmit="async () => await Submit()">
+        <div>
+            <label for="LibroId">Codigo del libro:</label>
+            <input type="number" id="LibroId" @bind-value="libro.LibroId" />
 
-        <label for="Titulo">Titulo:</label>
-        <InputText id="Titulo" @bind-Value="libro.Titulo" />
+            <label for="Titulo">Titulo:</label>
+            <input type="text" id="Titulo" @bind-value="libro.Titulo" />
 
-        <label for="Anio">Año:</label>
-        <InputNumber id="Anio" @bind-Value="libro.Anio" />
+            <label for="Anio">Año:</label>
+            <input type="number" id="Anio" @bind-value="libro.Anio" />
 
-        <label for="Genero">Genero:</label>
-        <InputText id="Genero" @bind-Value="libro.Genero" />
+            <label for="Genero">Genero:</label>
+            <input type="text" id="Genero" @bind-value="libro.Genero" />
 
-        <label for="NumPaginas">Número de paginas:</label>
-        <InputNumber id="NumPaginas" @bind-Value="libro.NumPaginas" />
+            <label for="NumPaginas">Número de paginas:</label>
+            <input type="text" id="NumPaginas" @bind-value="libro.NumPaginas" />
 
-          <label for="AutorId">Id del autor</label>
-        <InputNumber id="AutorId" @bind-Value="libro.AutorId" />
-    </div>
+            <label for="AutorId">Id autor:</label>
+            <input type="number" id="AutorId" @bind-value="libro.AutorId" />
 
-    <button type="submit">Guardar Libro</button>
-    <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="GoToIndex">Volver al índice</MudButton>
-</EditForm>
+            <!-- Si necesitas enviar el AutorId pero no mostrarlo, puedes incluir un campo oculto -->
+            <!-- <input type="hidden" id="AutorId" name="AutorId" value="@autors.AutorId" /> -->
+        </div>
 
+        <button type="submit">Guardar Autor</button>
+        <button type="button" onclick="@GoToIndex">Volver al índice</button>
+    </form>
+}
+else
+{
+    <p>Cargando datos...</p>
+}
 
-@code {  
+@code {
+    private List<LibroDTO> Libros;
     LibroDTO libro = new();
   
     private void GoToIndex()
@@ -47,9 +57,15 @@
         NavManager.NavigateTo("Libro/GetLibro");
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        // Obtener la lista completa de autores.
+        Libros = await librosServices.GetBook();
+    }
+
     private async Task Submit()
     {
-        libro = await insertlibrosServices.InsertBook(libro);
+        libro = await librosServices.InsertBook(libro);
         NavManager.NavigateTo("Libro/GetLibro");
 
     }

@@ -13,33 +13,41 @@
 
 <h3>Agreagar un Autor</h3>
 
-<EditForm Model="@autors" OnValidSubmit="@Submit">
-    <div>
-        <label for="AutorId">Codigo del autor:</label>
-        <InputNumber id="AutorId" @bind-Value="autors.AutorId" />
+@if (autores != null)
+{
+    <form @onsubmit="async () => await Submit()">
+        <div>
+            <label for="AutorId">Codigo del autor:</label>
+            <input type="number" id="AutorId" @bind-value="autors.AutorId" />
 
-        <label for="NombreCompleto">Nombre Completo:</label>
-        <InputText id="NombreCompleto" @bind-Value="autors.NombreCompleto" />
+            <label for="NombreCompleto">Nombre Completo:</label>
+            <input type="text" id="NombreCompleto" @bind-value="autors.NombreCompleto" />
 
-        <label for="FechaNacimiento">Fecha de Nacimiento:</label>
-        <InputDate id="FechaNacimiento" @bind-Value="autors.FechaNacimiento" />
+            <label for="FechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="FechaNacimiento"@bind-value="autors.FechaNacimiento" />
 
-        <label for="CiudadProcedencia">Ciudad de Procedencia:</label>
-        <InputText id="CiudadProcedencia" @bind-Value="autors.CiudadProcedencia" />
+            <label for="CiudadProcedencia">Ciudad de Procedencia:</label>
+            <input type="text" id="CiudadProcedencia" @bind-value="autors.CiudadProcedencia" />
 
-        <label for="CorreoElectronico">Correo Electronico:</label>
-        <InputText id="CorreoElectronico" @bind-Value="autors.CorreoElectronico" />
-       @*  <label for="AutorId">Id del autor</label>
-        <InputNumber id="AutorId" @bind-Value="autors.AutorId" /> *@
-    </div>
+            <label for="CorreoElectronico">Correo Electronico:</label>
+            <input type="text" id="CorreoElectronico" @bind-value="autors.CorreoElectronico" />
 
-    <button type="submit">Guardar Libro</button>
-    <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="GoToIndex">Volver al índice</MudButton>
+            <!-- Si necesitas enviar el AutorId pero no mostrarlo, puedes incluir un campo oculto -->
+            <!-- <input type="hidden" id="AutorId" name="AutorId" value="@autors.AutorId" /> -->
+        </div>
 
-</EditForm>
+        <button type="submit">Guardar Autor</button>
+        <button type="button" onclick="@GoToIndex">Volver al índice</button>
+    </form>
+}
 
+else
+{
+    <p>Cargando datos...</p>
+}
 
 @code {
+    private List<AutorDTO> autores;
     AutorDTO autors = new();
 
     private void GoToIndex()
@@ -47,9 +55,28 @@
         NavManager.NavigateTo("Autor/GetAutor");
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        // Obtener la lista completa de autores.
+        autores = await autorServices.GetAuthors();
+    }
+
     private async Task Submit()
     {
-        autors = await autorServices.InsertAuthor(autors);
-        NavManager.NavigateTo("Autor/GetAutor");
+        try
+        {
+            if (autors != null)
+            {
+                autors = await autorServices.InsertAuthor(autors);
+                NavManager.NavigateTo("Autor/GetAutor");
+            }
+          
+        }
+        catch (Exception ex )
+        {
+
+            Console.WriteLine($"Error al actualizar autor: {ex.Message}");
+        }
+       
     }
 }

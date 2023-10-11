@@ -13,20 +13,39 @@
 
 <h3>Actualizar Actor</h3>
 
-@if (autors != null)
+@if (autores != null)
 {
-    <EditForm Model="autors" OnValidSubmit="@Submit">
-        <DataAnnotationsValidator />
-        <MudTextField @bind-Value="autors.AutorId" Label="Id del Autor" />
-        <MudTextField @bind-Value="autors.NombreCompleto" Label="Nombre Completo" />
-        <MudTextField @bind-Value="autors.FechaNacimiento" Label="Fecha de Nacimiento" />
-        <MudTextField @bind-Value="autors.CiudadProcedencia" Label="Ciudad de Procedencia" />
-        <MudTextField @bind-Value="autors.CorreoElectronico" Label="Correo Electronico" />
+    <form @onsubmit="@(async () => await Submit())">
 
+        <label for="autorId">Id de Autor:</label>
+        <select id="autorId" name="autorId" @bind="autors.AutorId">
+            @foreach (var autor in autores)
+            {
+                <option value="@autor.AutorId">@autor.AutorId</option>
+                
+            }
+        </select>
+
+        <label for="NombreCompleto">Nombre del Autor:</label>
+        <select id="NombreCompleto" name="NombreCompleto" @bind="autors.NombreCompleto">
+            @foreach (var autor in autores)
+            {                
+                <option value="@autor.NombreCompleto">@autor.NombreCompleto</option>
+            }
+        </select>
+
+        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+        <input id="fechaNacimiento" type="date" @bind="autors.FechaNacimiento">
+
+        <label for="ciudadProcedencia">Ciudad de Procedencia:</label>
+        <input id="ciudadProcedencia" type="text" @bind="autors.CiudadProcedencia">
+
+        <label for="correoElectronico">Correo Electronico:</label>
+        <input id="correoElectronico" type="text" @bind="autors.CorreoElectronico">
 
         <button type="submit">Actualizar Autor</button>
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="GoToIndex">Volver al índice</MudButton>
-    </EditForm>
+        <button type="button" onclick="@GoToIndex">Volver al índice</button>
+    </form>
 }
 else
 {
@@ -35,18 +54,35 @@ else
 
 
 @code {
-
+    private List<AutorDTO> autores;
     AutorDTO autors = new();
+    private int selectedAuthorId;
 
     private void GoToIndex()
     {
         NavManager.NavigateTo("Autor/GetAutor");
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        // Obtener la lista completa de autores.
+        autores = await autorServices.GetAuthors();
+    }
+
     private async Task Submit()
     {
-        autors = await autorServices.UpdateAuthor(autors.AutorId, autors);
-        NavManager.NavigateTo("Autor/GetAutor");
+        try
+        {
+            if (autors != null)
+            {
+                autors = await autorServices.UpdateAuthor(autors.AutorId, autors);
+                NavManager.NavigateTo("Autor/GetAutor");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al actualizar autor: {ex.Message}");
+        }       
     }
 
 }
