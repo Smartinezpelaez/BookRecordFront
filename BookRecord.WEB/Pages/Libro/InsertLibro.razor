@@ -32,8 +32,16 @@
             <label for="NumPaginas">Número de paginas:</label>
             <input type="text" id="NumPaginas" @bind-value="libro.NumPaginas" />
 
-            <label for="AutorId">Id autor:</label>
-            <input type="number" id="AutorId" @bind-value="libro.AutorId" />
+            <label for="autorId">Id de Autor:</label>
+            <select id="autorId" name="autorId" @bind="libro.AutorId">
+                @foreach (var autor in Libros)
+                {
+                    <option value="@autor.AutorId">@autor.AutorId</option>
+
+                }
+            </select>
+           @*  <label for="AutorId">Id autor:</label>
+            <input type="number" id="AutorId" @bind-value="libro.AutorId" /> *@
 
             <!-- Si necesitas enviar el AutorId pero no mostrarlo, puedes incluir un campo oculto -->
             <!-- <input type="hidden" id="AutorId" name="AutorId" value="@autors.AutorId" /> -->
